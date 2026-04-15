@@ -4,19 +4,20 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
-TICKER = "KXTRUMPADMINLEAVE-26DEC31-PBON"  # Pam Bondi
+TICKER = "KXTRUMPADMINLEAVE-26DEC31-DSAC"  # David Sacks
 BASE_URL = "https://api.elections.kalshi.com/trade-api/v2"
+eastern = ZoneInfo("America/New_York")
 
-# April 1st–2nd, 2026 UTC window
-start = datetime(2026, 4, 1, 0, 0, 0, tzinfo=timezone.utc)
-end = datetime(2026, 4, 2, 23, 59, 59, tzinfo=timezone.utc)
+# March 26th, 2026 UTC window
+start = datetime(2026, 3, 26, 0, 0, 0, tzinfo=timezone.utc)
+end = datetime(2026, 3, 26, 23, 59, 59, tzinfo=timezone.utc)
 
 min_ts = int(start.timestamp())
 max_ts = int(end.timestamp())
 
 def fetch_candlesticks():
-    candles = []
     resp = requests.get(
         f"{BASE_URL}/series/KXTRUMPADMINLEAVE/markets/{TICKER}/candlesticks",
         params={"start_ts": min_ts, "end_ts": max_ts, "period_interval": 1},
@@ -53,14 +54,12 @@ def fetch_trades():
     return trades
 
 if __name__ == "__main__":
-    print(f"Fetching trades for {TICKER} on April 1st–2nd, 2026...")
+    print(f"Fetching trades for {TICKER} on March 26th, 2026...")
     trades = fetch_trades()
     trades.sort(key=lambda t: t["created_time"])
     print(f"\nTotal trades: {len(trades)}\n")
     print(f"{'Time (ET)':<32} {'Side':<6} {'Contracts':>10} {'Yes Price':>10} {'No Price':>10}")
     print("-" * 72)
-    from zoneinfo import ZoneInfo
-    eastern = ZoneInfo("America/New_York")
     for t in trades:
         if float(t["yes_price_dollars"]) > 0.95:
             continue
@@ -69,8 +68,6 @@ if __name__ == "__main__":
         print(f"{time:<32} {t['taker_side']:<6} {float(t['count_fp']):>10.0f} {float(t['yes_price_dollars']):>9.2f}  {float(t['no_price_dollars']):>9.2f}")
 
     # Graph yes price over time
-    from zoneinfo import ZoneInfo
-    eastern = ZoneInfo("America/New_York")
     times = [datetime.fromisoformat(t["created_time"].replace("Z", "+00:00")).astimezone(eastern) for t in trades]
     yes_prices = [float(t["yes_price_dollars"]) for t in trades]
     sizes = [float(t["count_fp"]) for t in trades]
@@ -79,11 +76,13 @@ if __name__ == "__main__":
     ax.scatter(times, yes_prices, s=[s * 2 for s in sizes], alpha=0.5, color="steelblue", zorder=3)
     ax.plot(times, yes_prices, color="steelblue", linewidth=0.8, alpha=0.4)
 
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%-I%p", tz=eastern))
-    ax.xaxis.set_major_locator(mdates.HourLocator(interval=2))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%-I:%M%p", tz=eastern))
+    ax.xaxis.set_major_locator(mdates.HourLocator(interval=1))
     fig.autofmt_xdate()
 
-    ax.set_title("Pam Bondi — Kalshi Yes Price on April 1st–2nd, 2026", fontsize=13)
+    zoom_start = datetime(2026, 3, 26, 15, 0, 0, tzinfo=eastern)
+    ax.set_xlim(zoom_start, times[-1])
+    ax.set_title("David Sacks — Kalshi Yes Price on March 26th, 2026 (3PM–EOD ET)", fontsize=13)
     ax.set_xlabel("Time (ET)")
     ax.set_ylabel("Yes Price ($)")
     ax.set_ylim(0, 1)
@@ -91,8 +90,8 @@ if __name__ == "__main__":
     ax.grid(axis="y", linestyle="--", alpha=0.5)
 
     plt.tight_layout()
-    plt.savefig("pambondi.png", dpi=150)
-    print("\nChart saved to pambondi.png")
+    plt.savefig("davidsacks.png", dpi=150)
+    print("\nChart saved to davidsacks.png")
 
     # Graph bid/ask over time
     print("Fetching candlesticks...")
@@ -108,11 +107,12 @@ if __name__ == "__main__":
     ax2.plot(candle_times, asks, color="tomato", linewidth=1, label="Best Ask")
     ax2.fill_between(candle_times, bids, asks, alpha=0.15, color="gray", label="Spread")
 
-    ax2.xaxis.set_major_formatter(mdates.DateFormatter("%-I%p", tz=eastern))
-    ax2.xaxis.set_major_locator(mdates.HourLocator(interval=2))
+    ax2.xaxis.set_major_formatter(mdates.DateFormatter("%-I:%M%p", tz=eastern))
+    ax2.xaxis.set_major_locator(mdates.HourLocator(interval=1))
     fig2.autofmt_xdate()
 
-    ax2.set_title("Pam Bondi — Kalshi Resting Bid/Ask on April 1st–2nd, 2026", fontsize=13)
+    ax2.set_xlim(zoom_start, candle_times[-1])
+    ax2.set_title("David Sacks — Kalshi Resting Bid/Ask on March 26th, 2026 (3PM–EOD ET)", fontsize=13)
     ax2.set_xlabel("Time (ET)")
     ax2.set_ylabel("Yes Price ($)")
     ax2.set_ylim(0, 1)
@@ -121,5 +121,5 @@ if __name__ == "__main__":
     ax2.legend()
 
     plt.tight_layout()
-    plt.savefig("pambondi_bidask.png", dpi=150)
-    print("Chart saved to pambondi_bidask.png")
+    plt.savefig("davidsacks_bidask.png", dpi=150)
+    print("Chart saved to davidsacks_bidask.png")
