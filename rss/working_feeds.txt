@@ -1,0 +1,141 @@
+# Working RSS Feeds — verified 2026-04-15
+# Format: CATEGORY | OUTLET | FEED URL | ITEM COUNT AT TEST TIME
+
+## NEW YORK TIMES (pattern: https://rss.nytimes.com/services/xml/rss/nyt/{Section}.xml)
+NYT | NYT Homepage     | https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml   | 32
+NYT | NYT World        | https://rss.nytimes.com/services/xml/rss/nyt/World.xml      | 58
+NYT | NYT US           | https://rss.nytimes.com/services/xml/rss/nyt/US.xml         | 22
+NYT | NYT Politics     | https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml   | 20
+NYT | NYT Business     | https://rss.nytimes.com/services/xml/rss/nyt/Business.xml   | 50
+NYT | NYT Technology   | https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml | 20
+NYT | NYT Science      | https://rss.nytimes.com/services/xml/rss/nyt/Science.xml    | 29
+NYT | NYT Health       | https://rss.nytimes.com/services/xml/rss/nyt/Health.xml     | 20
+NYT | NYT Arts         | https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml       | 57
+NYT | NYT Opinion      | https://rss.nytimes.com/services/xml/rss/nyt/Opinion.xml    | 48
+
+## BBC NEWS
+BBC | BBC Main (UK)             | https://feeds.bbci.co.uk/news/rss.xml                          | 40
+BBC | BBC World                 | https://feeds.bbci.co.uk/news/world/rss.xml                    | 45
+BBC | BBC UK                    | https://feeds.bbci.co.uk/news/uk/rss.xml                       | 30
+BBC | BBC Europe                | https://feeds.bbci.co.uk/news/world/europe/rss.xml             | 28
+BBC | BBC Asia                  | https://feeds.bbci.co.uk/news/world/asia/rss.xml               | 16
+BBC | BBC Middle East           | https://feeds.bbci.co.uk/news/world/middle_east/rss.xml        | 30
+BBC | BBC Business              | https://feeds.bbci.co.uk/news/business/rss.xml                 | 31
+BBC | BBC Technology            | https://feeds.bbci.co.uk/news/technology/rss.xml               | 20
+BBC | BBC Science & Environment | https://feeds.bbci.co.uk/news/science_and_environment/rss.xml  | 30
+BBC | BBC Health                | https://feeds.bbci.co.uk/news/health/rss.xml                   | 60
+BBC | BBC Entertainment & Arts  | https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml   | 25
+BBC | BBC Sport                 | https://feeds.bbci.co.uk/sport/rss.xml                         | 60
+
+## CNN
+CNN | CNN World         | http://rss.cnn.com/rss/cnn_world.rss        | 29
+CNN | CNN US            | http://rss.cnn.com/rss/cnn_us.rss           | 29
+CNN | CNN Politics      | http://rss.cnn.com/rss/cnn_allpolitics.rss  | 30
+CNN | CNN Tech          | http://rss.cnn.com/rss/cnn_tech.rss         | 20
+CNN | CNN Health        | http://rss.cnn.com/rss/cnn_health.rss       | 29
+CNN | CNN Entertainment | http://rss.cnn.com/rss/cnn_showbiz.rss      | 30
+
+## WALL STREET JOURNAL (via Dow Jones)
+WSJ | WSJ World    | https://feeds.content.dowjones.io/public/rss/RSSWorldNews     | 104
+WSJ | WSJ US       | https://feeds.content.dowjones.io/public/rss/RSSUSnews        | 41
+WSJ | WSJ Business | https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness  | 100
+WSJ | WSJ Markets  | https://feeds.content.dowjones.io/public/rss/RSSMarketsMain   | 51
+WSJ | WSJ Economy  | https://feeds.content.dowjones.io/public/rss/socialeconomyfeed | 37
+WSJ | WSJ Tech     | https://feeds.content.dowjones.io/public/rss/RSSWSJD          | 40
+WSJ | WSJ Opinion  | https://feeds.content.dowjones.io/public/rss/RSSOpinion        | 70
+
+## NPR (pattern: https://feeds.npr.org/{id}/rss.xml — capped at 10 items each)
+NPR | NPR Top Stories | https://feeds.npr.org/1001/rss.xml | 10
+NPR | NPR National    | https://feeds.npr.org/1003/rss.xml | 10
+NPR | NPR World       | https://feeds.npr.org/1004/rss.xml | 10
+NPR | NPR Business    | https://feeds.npr.org/1006/rss.xml | 10
+NPR | NPR Science     | https://feeds.npr.org/1007/rss.xml | 10
+NPR | NPR Politics    | https://feeds.npr.org/1014/rss.xml | 10
+NPR | NPR Economy     | https://feeds.npr.org/1017/rss.xml | 10
+NPR | NPR Technology  | https://feeds.npr.org/1019/rss.xml | 10
+NPR | NPR Space       | https://feeds.npr.org/1026/rss.xml | 10
+NPR | NPR Books       | https://feeds.npr.org/1032/rss.xml | 10
+NPR | NPR Movies      | https://feeds.npr.org/1045/rss.xml | 10
+NPR | NPR Health      | https://feeds.npr.org/1128/rss.xml | 10
+NPR | NPR Climate     | https://feeds.npr.org/1167/rss.xml | 10
+
+## CBS NEWS
+CBS | CBS Top Stories    | https://www.cbsnews.com/latest/rss/main          | 36
+CBS | CBS US             | https://www.cbsnews.com/latest/rss/us             | 35
+CBS | CBS Politics       | https://www.cbsnews.com/latest/rss/politics       | 40
+CBS | CBS MoneyWatch     | https://www.cbsnews.com/latest/rss/moneywatch     | 30
+CBS | CBS Technology     | https://www.cbsnews.com/latest/rss/technology     | 30
+CBS | CBS Health         | https://www.cbsnews.com/latest/rss/health         | 30
+CBS | CBS Science        | https://www.cbsnews.com/latest/rss/science        | 31
+CBS | CBS Entertainment  | https://www.cbsnews.com/latest/rss/entertainment  | 32
+
+## FOX NEWS
+FOX | Fox Latest   | https://moxie.foxnews.com/google-publisher/latest.xml   | 15
+FOX | Fox US       | https://moxie.foxnews.com/google-publisher/us.xml       | 15
+FOX | Fox Politics | https://moxie.foxnews.com/google-publisher/politics.xml | 15
+FOX | Fox Tech     | https://moxie.foxnews.com/google-publisher/tech.xml     | 11
+FOX | Fox Science  | https://moxie.foxnews.com/google-publisher/science.xml  | 15
+FOX | Fox Health   | https://moxie.foxnews.com/google-publisher/health.xml   | 12
+FOX | Fox Sports   | https://moxie.foxnews.com/google-publisher/sports.xml   | 15
+FOX | Fox Opinion  | https://moxie.foxnews.com/google-publisher/opinion.xml  | 10
+
+## OTHER US NEWS
+US | NBC News Top Stories | https://feeds.nbcnews.com/feeds/topstories               | 31
+US | ABC News Top Stories | https://abcnews.com/abcnews/topstories                   | 25
+US | Politico             | https://www.politico.com/rss/politicopicks.xml            | 38
+US | The Hill             | https://thehill.com/news/feed/                            | 15
+US | Washington Post      | https://feeds.washingtonpost.com/rss/national             | 8
+
+## INTERNATIONAL
+INTL | Al Jazeera      | https://www.aljazeera.com/xml/rss/all.xml              | 25
+INTL | The Guardian    | https://www.theguardian.com/world/rss                  | 45
+INTL | Guardian US     | https://www.theguardian.com/us-news/rss                | ~45
+INTL | Sky News UK     | https://feeds.skynews.com/feeds/rss/home.xml           | 9
+INTL | Sky News World  | https://feeds.skynews.com/feeds/rss/world.xml          | 10
+INTL | Financial Times | https://www.ft.com/world?format=rss                    | 25
+
+## BUSINESS / FINANCE
+BIZ | Bloomberg Markets | https://feeds.bloomberg.com/markets/news.rss              | 30
+BIZ | Bloomberg Tech   | https://feeds.bloomberg.com/technology/news.rss           | 30
+BIZ | CNBC             | https://www.cnbc.com/id/100003114/device/rss/rss.html     | 30
+BIZ | MarketWatch      | http://feeds.marketwatch.com/marketwatch/topstories/      | 10
+BIZ | Forbes Business  | https://www.forbes.com/business/feed/                     | 25
+
+## TECHNOLOGY
+TECH | Ars Technica      | https://feeds.arstechnica.com/arstechnica/index        | 20
+TECH | TechCrunch        | https://techcrunch.com/feed/                           | 20
+TECH | The Verge         | https://www.theverge.com/rss/index.xml                 | 10
+TECH | Wired             | https://www.wired.com/feed/rss                         | 50
+TECH | Wired AI          | https://www.wired.com/feed/tag/ai/latest/rss           | ~50
+TECH | MIT Tech Review   | https://www.technologyreview.com/feed/                  | 10
+TECH | CNET              | https://www.cnet.com/rss/all/                          | 25
+TECH | IEEE Spectrum     | https://spectrum.ieee.org/feeds/feed.rss               | 7
+TECH | Hacker News 100+  | https://hnrss.org/frontpage?points=100                 | 13
+
+## SCIENCE
+SCI | NASA             | https://www.nasa.gov/news-release/feed/            | 5
+SCI | ScienceDaily     | https://www.sciencedaily.com/rss/all.xml           | 60
+SCI | New Scientist    | https://www.newscientist.com/feed/home/             | 100
+
+## AI / MACHINE LEARNING
+AI | VentureBeat AI   | https://venturebeat.com/category/ai/feed/                  | 6
+AI | MIT AI News      | https://news.mit.edu/rss/topic/artificial-intelligence2    | 11
+AI | Google Research  | https://research.google/blog/rss/                         | 150
+AI | Import AI        | https://importai.substack.com/feed                        | 5
+AI | MarkTechPost     | https://www.marktechpost.com/feed/                        | 5
+
+## ENTERTAINMENT / SPORTS
+ENT | ESPN             | https://www.espn.com/espn/rss/news        | 50
+ENT | Variety          | https://variety.com/feed/                  | 10
+ENT | Rolling Stone    | https://www.rollingstone.com/feed/         | 10
+ENT | Hollywood Reporter | https://www.hollywoodreporter.com/feed/ | 10
+ENT | Product Hunt     | https://www.producthunt.com/feed           | 50
+
+## DEAD / BROKEN (do not use)
+# USA Today  — rssfeeds.usatoday.com redirects to HTML page, feed is dead
+# HBR        — hbr.org/feed returns 404
+# OpenAI Blog — openai.com/blog/rss/ returns 403
+# CNN Money  — rss.cnn.com/rss/money_latest.rss stale since Nov 2018
+# NYT Sports — valid RSS but perpetually empty (0 items)
+# Reuters    — discontinued RSS in 2020
+# AP News    — no official public RSS feed
