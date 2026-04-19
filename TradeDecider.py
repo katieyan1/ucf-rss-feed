@@ -19,6 +19,7 @@ class TradeDecider:
         env_file: str = ".env",
         kalshi_base_url: str | None = None,
         order_timeout_seconds: int = 10,
+        log_trades: bool = True,
     ):
         self._env_file_directory = os.path.dirname(os.path.abspath(__file__))
         self._load_env_file(env_file)
@@ -58,6 +59,7 @@ class TradeDecider:
         )
         self.requested_execution_mode = self._normalize_execution_mode(requested_mode)
         self.execution_mode = self.requested_execution_mode
+        self.log_trades = self._parse_bool(os.environ.get("TRADE_DECIDER_LOG_TRADES"), default=log_trades)
         if self.execution_mode == "live" and not self._can_submit_live_orders():
             print(
                 "[TradeDecider] Live mode requested but Kalshi credentials/signing support are missing. "
@@ -77,6 +79,17 @@ class TradeDecider:
             return int(raw_value)
         except (TypeError, ValueError):
             return default
+
+    @staticmethod
+    def _parse_bool(raw_value: str | None, default: bool) -> bool:
+        if raw_value is None:
+            return default
+        normalized = str(raw_value).strip().lower()
+        if normalized in {"1", "true", "yes", "y", "on"}:
+            return True
+        if normalized in {"0", "false", "no", "n", "off"}:
+            return False
+        return default
 
     @staticmethod
     def _normalize_execution_mode(mode: str) -> str:
@@ -403,6 +416,38 @@ class TradeDecider:
             decision["skip_reason"] = decision["execution_note"]
         return False
 
+    def _log_trade_decision(self, decision: dict) -> None:
+        if not self.log_trades:
+            return
+
+        market_id = decision.get("market_id")
+        side = decision.get("side")
+        confidence = decision.get("confidence", 0.0)
+        action = decision.get("action")
+        execution_status = decision.get("execution_status")
+
+        if action == "buy" and execution_status in {"simulated", "submitted"}:
+            print(
+                "[TradeDecider] Kalshi trade taken "
+                f"market={market_id} side={side} dollars=${decision.get('dollars', 0.0):.2f} "
+                f"confidence={confidence:.2f} mode={decision.get('execution_mode')} status={execution_status}"
+            )
+            return
+
+        if action == "buy" and execution_status == "submit_failed":
+            print(
+                "[TradeDecider] Kalshi trade failed "
+                f"market={market_id} side={side} dollars=${decision.get('dollars', 0.0):.2f} "
+                f"reason={decision.get('execution_note') or 'submit failed'}"
+            )
+            return
+
+        reason = decision.get("skip_reason") or decision.get("execution_note") or "No edge"
+        print(
+            "[TradeDecider] Kalshi trade ignored "
+            f"market={market_id} side={side} confidence={confidence:.2f} reason={reason}"
+        )
+
     def decide(self, signal_output: dict, current_prices: dict[str, float]) -> list[dict]:
         """
         Takes the SignalAnalyzer output and a dict of {market_id: current_price},
@@ -510,6 +555,8 @@ class TradeDecider:
                     self.open_positions.get(market_id, 0.0) + decision["dollars"]
                 )
                 self.last_trade_time[market_id] = time.time()
+
+            self._log_trade_decision(decision)
 
             decisions.append(decision)
             self.decisions_log.append(decision)
