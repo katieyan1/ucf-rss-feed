@@ -1,0 +1,80 @@
+Price Threshold Crossings — KXTRUMPADMINLEAVE-26DEC31
+Source: Kalshi individual trade data
+Method: last trade with price < threshold before threshold was first crossed
+All times ET
+Note: Dan Bongino and Greg Bovino are not listed as candidates in this market.
+
+====================================================================================================
+
+Pam Bondi → KXTRUMPADMINLEAVE-26DEC31-PBON
+  Total trades: 10,753
+  Trade range: 2026-02-13 19:01:50 EST → 2026-04-07 14:09:58 EDT
+  (market closed early — she left)
+  Note: market opened above 50¢, so 30/40/50 thresholds have no last-trade-below.
+
+   Threshold  Last trade below threshold     Price
+  ----------  -----------------------------  -----
+         30¢  — market opened above this level
+         40¢  — market opened above this level
+         50¢  — market opened above this level
+         60¢  2026-03-05 15:56:51 EST          55¢
+         70¢  2026-04-01 19:38:31 EDT          69¢
+         80¢  2026-04-02 10:28:54 EDT          78¢
+         90¢  2026-04-02 10:40:53 EDT          89¢
+         95¢  2026-04-02 12:48:04 EDT          92¢
+
+====================================================================================================
+
+Kristi Noem → KXTRUMPADMINLEAVE-26DEC31-KNOE
+  Total trades: 2,695
+  Trade range: 2026-02-13 19:04:24 EST → 2026-03-24 07:26:09 EDT
+  (market closed early — she left)
+  Note: market opened above 40¢, so 30/40 thresholds have no last-trade-below.
+
+   Threshold  Last trade below threshold     Price
+  ----------  -----------------------------  -----
+         30¢  — market opened above this level
+         40¢  — market opened above this level
+         50¢  2026-02-18 20:38:50 EST          49¢
+         60¢  2026-03-05 05:16:49 EST          59¢
+         70¢  2026-03-05 08:00:06 EST          68¢
+         80¢  2026-03-05 13:01:08 EST          79¢
+         90¢  2026-03-05 13:03:33 EST          85¢
+         95¢  2026-03-05 13:04:28 EST          94¢
+
+====================================================================================================
+
+David Sacks → KXTRUMPADMINLEAVE-26DEC31-DSAC
+  Total trades: 46
+  Trade range: 2026-03-17 10:50:31 EDT → 2026-03-26 17:10:20 EDT
+  (market closed early — he left)
+  Note: market opened above 50¢; price jumped from 50¢ to 98¢ in one trade on 03-26,
+        so 60–95 thresholds all share the same last-trade-below time.
+
+   Threshold  Last trade below threshold     Price
+  ----------  -----------------------------  -----
+         30¢  — market opened above this level
+         40¢  — market opened above this level
+         50¢  — market opened above this level
+         60¢  2026-03-26 16:45:18 EDT          50¢
+         70¢  2026-03-26 16:45:18 EDT          50¢
+         80¢  2026-03-26 16:45:18 EDT          50¢
+         90¢  2026-03-26 16:45:18 EDT          50¢
+         95¢  2026-03-26 16:45:18 EDT          50¢
+
+====================================================================================================
+
+Dan Bongino  — not listed as a candidate in KXTRUMPADMINLEAVE-26DEC31
+Greg Bovino  — not listed as a candidate in KXTRUMPADMINLEAVE-26DEC31
+
+====================================================================================================
+
+SUMMARY TABLE — Last trade below each threshold (ET)
+====================================================================================================
+Candidate          30¢               40¢               50¢               60¢               70¢               80¢               90¢               95¢
+-----------        ----------------  ----------------  ----------------  ----------------  ----------------  ----------------  ----------------  ----------------
+Pam Bondi          —                 —                 —                 03-05 15:56:51    04-01 19:38:31    04-02 10:28:54    04-02 10:40:53    04-02 12:48:04
+Kristi Noem        —                 —                 02-18 20:38:50    03-05 05:16:49    03-05 08:00:06    03-05 13:01:08    03-05 13:03:33    03-05 13:04:28
+David Sacks        —                 —                 —                 03-26 16:45:18    03-26 16:45:18    03-26 16:45:18    03-26 16:45:18    03-26 16:45:18
+Dan Bongino        (not in market)
+Greg Bovino        (not in market)
