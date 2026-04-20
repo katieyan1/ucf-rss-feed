@@ -3,3 +3,4 @@ rss/.cache_*/
 rss/.nyt_cache/
 rss/*_changes.log
 rss/nyt_changes.log
+cloudflare/rss-monitor/node_modules

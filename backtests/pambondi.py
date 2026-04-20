@@ -85,6 +85,25 @@ def fetch_trades():
 
     return trades
 
+def nearest_price(times, prices, target):
+    """Return the price at the trade/candle closest in time to target."""
+    if not times:
+        return None
+    closest_idx = min(range(len(times)), key=lambda i: abs((times[i] - target).total_seconds()))
+    return prices[closest_idx]
+
+VLINES = [
+    datetime(2026, 4, 1, 19, 19, tzinfo=ZoneInfo("America/New_York")),
+    datetime(2026, 4, 2, 11, 21, tzinfo=ZoneInfo("America/New_York")),
+
+    datetime(2026, 4, 1, 19, 24, tzinfo=ZoneInfo("America/New_York")),
+    datetime(2026, 4, 2, 11, 26, tzinfo=ZoneInfo("America/New_York")),
+]
+
+TRUTHSOCIAL = [
+    datetime(2026, 4, 2, 11, 17, tzinfo=ZoneInfo("America/New_York")),
+]
+
 if __name__ == "__main__":
     print(f"Fetching trades for {TICKER} on April 1st–2nd, 2026...")
     trades = fetch_trades()
@@ -115,9 +134,23 @@ if __name__ == "__main__":
     ax.set_title("Pam Bondi — Kalshi Yes Price on April 1st–2nd, 2026", fontsize=13)
     ax.set_xlabel("Time (ET)")
     ax.set_ylabel("Yes Price ($)")
+    ax.set_xlim(datetime(2026, 4, 1, 17, 0, tzinfo=eastern), None)
     ax.set_ylim(0, 1)
     ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"${y:.2f}"))
     ax.grid(axis="y", linestyle="--", alpha=0.5)
+    for vl in VLINES:
+        ax.axvline(vl, color="blue", linewidth=1, linestyle="--", alpha=0.8)
+        p = nearest_price(times, yes_prices, vl)
+        if p is not None:
+            ax.text(vl, p + 0.03, f"${p:.2f}", color="blue", fontsize=8,
+                    ha="center", va="bottom")
+    
+    for ts in TRUTHSOCIAL:
+        ax.axvline(ts, color="red", linewidth=1.5, linestyle="-", alpha=0.9)
+        p = nearest_price(times, yes_prices, ts)
+        if p is not None:
+            ax.text(ts, p + 0.03, f"TS\n${p:.2f}", color="red", fontsize=8,
+                    ha="center", va="bottom")
 
     plt.tight_layout()
     plt.savefig("pambondi.png", dpi=150)
@@ -144,10 +177,25 @@ if __name__ == "__main__":
     ax2.set_title("Pam Bondi — Kalshi Resting Bid/Ask on April 1st–2nd, 2026", fontsize=13)
     ax2.set_xlabel("Time (ET)")
     ax2.set_ylabel("Yes Price ($)")
+    ax2.set_xlim(datetime(2026, 4, 1, 17, 0, tzinfo=eastern), None)
     ax2.set_ylim(0, 1)
     ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"${y:.2f}"))
     ax2.grid(axis="y", linestyle="--", alpha=0.5)
     ax2.legend()
+    for vl in VLINES:
+        ax2.axvline(vl, color="blue", linewidth=1, linestyle="--", alpha=0.8)
+        mid = nearest_price(candle_times, [(b + a) / 2 for b, a in zip(bids, asks)], vl)
+        if mid is not None:
+            ax2.text(vl, mid + 0.03, f"${mid:.2f}", color="blue", fontsize=8,
+                     ha="center", va="bottom")
+
+
+    for ts in TRUTHSOCIAL:
+        ax2.axvline(ts, color="red", linewidth=1.5, linestyle="-", alpha=0.9)
+        mid = nearest_price(candle_times, [(b + a) / 2 for b, a in zip(bids, asks)], ts)
+        if mid is not None:
+            ax2.text(ts, mid + 0.03, f"TS\n${mid:.2f}", color="red", fontsize=8,
+                     ha="center", va="bottom")
 
     plt.tight_layout()
     plt.savefig("pambondi_bidask.png", dpi=150)
@@ -171,8 +219,21 @@ if __name__ == "__main__":
     ax3.set_title("Pam Bondi — Price×Volume Z-Score on April 1st–2nd, 2026", fontsize=13)
     ax3.set_xlabel("Time (ET)")
     ax3.set_ylabel("Z-Score")
+    ax3.set_xlim(datetime(2026, 4, 1, 17, 0, tzinfo=eastern), None)
     ax3.grid(axis="y", linestyle="--", alpha=0.5)
     ax3.legend()
+    for vl in VLINES:
+        ax3.axvline(vl, color="blue", linewidth=1, linestyle="--", alpha=0.8)
+        z = nearest_price(sig_times, z_scores, vl)
+        if z is not None and not np.isnan(z):
+            ax3.text(vl, z + 0.1, f"Z={z:.1f}", color="blue", fontsize=8,
+                     ha="center", va="bottom")
+    for ts in TRUTHSOCIAL:
+        ax3.axvline(ts, color="red", linewidth=1.5, linestyle="-", alpha=0.9)
+        z = nearest_price(sig_times, z_scores, ts)
+        if z is not None and not np.isnan(z):
+            ax3.text(ts, z + 0.1, f"TS\nZ={z:.1f}", color="red", fontsize=8,
+                     ha="center", va="bottom")
 
     plt.tight_layout()
     plt.savefig("pambondi_signal.png", dpi=150)

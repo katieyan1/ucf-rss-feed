@@ -1,0 +1,144 @@
+Processing 12 markets
+
+====================================================================================================
+
+cnn-pambundifired → KXBONDIOUT-26APR03
+  Article timestamp: 4/1/261919
+  Fetching trades for KXBONDIOUT-26APR03...
+  Total trades: 5316
+  Trade range: 2026-04-02 13:09 EDT → 2026-04-02 23:58 EDT
+   Threshold  First crossed at               Price at crossing
+  ----------  ----------------------------  ------------------
+         30¢  2026-04-02 13:09:31 EDT                      99¢
+         40¢  2026-04-02 13:09:31 EDT                      99¢
+         50¢  2026-04-02 13:09:31 EDT                      99¢
+         60¢  2026-04-02 13:09:31 EDT                      99¢
+         70¢  2026-04-02 13:09:31 EDT                      99¢
+         80¢  2026-04-02 13:09:31 EDT                      99¢
+         90¢  2026-04-02 13:09:31 EDT                      99¢
+         95¢  2026-04-02 13:09:31 EDT                      99¢
+
+CNN Swalwell story → KXDROPOUTPRIMARY-26-ESWA
+  Article timestamp: 2026-04-01T18:24:29-04:00
+  Fetching trades for KXDROPOUTPRIMARY-26-ESWA...
+  Total trades: 204
+  Trade range: 2026-04-06 19:11 EDT → 2026-04-12 21:00 EDT
+   Threshold  First crossed at               Price at crossing
+  ----------  ----------------------------  ------------------
+         30¢  2026-04-10 16:58:44 EDT                      31¢
+         40¢  2026-04-10 17:07:48 EDT                      73¢
+         50¢  2026-04-10 17:07:48 EDT                      73¢
+         60¢  2026-04-10 17:07:48 EDT                      73¢
+         70¢  2026-04-10 17:07:48 EDT                      73¢
+         80¢  2026-04-10 19:05:10 EDT                      84¢
+         90¢  2026-04-10 20:01:53 EDT                      90¢
+         95¢  2026-04-12 20:39:12 EDT                      98¢
+
+wsj-anthropicsecurityrisk → KXANTHROPICRISK-26APR01
+  Article timestamp: 2/26/262251
+  Fetching trades for KXANTHROPICRISK-26APR01...
+  Total trades: 1369
+  Trade range: 2026-02-20 14:03 EST → 2026-02-27 17:21 EST
+   Threshold  First crossed at               Price at crossing
+  ----------  ----------------------------  ------------------
+         30¢  2026-02-20 14:03:02 EST                      32¢
+         40¢  2026-02-24 16:06:05 EST                      40¢
+         50¢  2026-02-25 17:38:12 EST                      73¢
+         60¢  2026-02-25 17:38:12 EST                      73¢
+         70¢  2026-02-25 17:38:12 EST                      73¢
+         80¢  2026-02-26 14:49:41 EST                      94¢
+         90¢  2026-02-26 14:49:41 EST                      94¢
+         95¢  2026-02-27 17:15:18 EST                      98¢
+
+sfchron-swalwelldropout → KXDROPOUTPRIMARY-26-KPAX
+  Article timestamp: 4/10/26546
+  Fetching trades for KXDROPOUTPRIMARY-26-KPAX...
+  Total trades: 0
+  No trades found.
+
+guardian-samaltmanreturns → N/A
+  Article timestamp: 11/19/23531
+  SKIPPED — ticker not available in current Kalshi API
+
+npr-kristinoemfired → KXNOEMOUT-26APR01
+  Article timestamp: 3/5/26220
+  Fetching trades for KXNOEMOUT-26APR01...
+  Total trades: 412
+  Trade range: 2026-03-12 10:22 EDT → 2026-03-24 08:12 EDT
+   Threshold  First crossed at               Price at crossing
+  ----------  ----------------------------  ------------------
+         30¢  2026-03-12 10:22:09 EDT                      86¢
+         40¢  2026-03-12 10:22:09 EDT                      86¢
+         50¢  2026-03-12 10:22:09 EDT                      86¢
+         60¢  2026-03-12 10:22:09 EDT                      86¢
+         70¢  2026-03-12 10:22:09 EDT                      86¢
+         80¢  2026-03-12 10:22:09 EDT                      86¢
+         90¢  2026-03-16 19:13:14 EDT                      95¢
+         95¢  2026-03-16 19:13:14 EDT                      95¢
+
+guardian-lindayaccarinostepsdown → N/A
+  Article timestamp: 7/9/251056
+  SKIPPED — ticker not available in current Kalshi API
+
+nytimes-upennpresidentresigns → N/A
+  Article timestamp: 12/9/231641
+  SKIPPED — ticker not available in current Kalshi API
+
+nytimes-harvardpresidentresigns → N/A
+  Article timestamp: 1/2/241321
+  SKIPPED — ticker not available in current Kalshi API
+
+guardian-firstnueralink → N/A
+  Article timestamp: 1/29/24195
+  SKIPPED — ticker not available in current Kalshi API
+
+nytimes-powellfire → KXTRYFIREPOWELL-26MAY12-JUN01
+  Article timestamp: 4/15/26832
+  Fetching trades for KXTRYFIREPOWELL-26MAY12-JUN01...
+  Total trades: 144
+  Trade range: 2026-04-15 13:36 EDT → 2026-04-20 00:51 EDT
+   Threshold  First crossed at               Price at crossing
+  ----------  ----------------------------  ------------------
+         30¢  2026-04-15 13:36:54 EDT                      30¢
+         40¢  — never reached             
+         50¢  — never reached             
+         60¢  — never reached             
+         70¢  — never reached             
+         80¢  — never reached             
+         90¢  — never reached             
+         95¢  — never reached             
+
+nytimes-metalayoffs → KXMETAHEADCOUNT-26JUL-81000
+  Article timestamp: 3/14/26932
+  Fetching trades for KXMETAHEADCOUNT-26JUL-81000...
+  Total trades: 17
+  Trade range: 2026-02-21 14:03 EST → 2026-04-19 20:16 EDT
+   Threshold  First crossed at               Price at crossing
+  ----------  ----------------------------  ------------------
+         30¢  — never reached             
+         40¢  — never reached             
+         50¢  — never reached             
+         60¢  — never reached             
+         70¢  — never reached             
+         80¢  — never reached             
+         90¢  — never reached             
+         95¢  — never reached             
+
+
+============================================================================================================================================
+SUMMARY TABLE — First time each price threshold was crossed (ET)
+============================================================================================================================================
+Market                                              Article Time                           30¢                   40¢                   50¢                   60¢                   70¢                   80¢                   90¢                   95¢
+--------------------------------------------------------------------------------------------------------------------------------------------
+KXBONDIOUT-26APR03                                  4/1/261919                     04-02 13:09           04-02 13:09           04-02 13:09           04-02 13:09           04-02 13:09           04-02 13:09           04-02 13:09           04-02 13:09
+KXDROPOUTPRIMARY-26-ESWA                            2026-04-01T18:24:29-04:00           04-10 16:58           04-10 17:07           04-10 17:07           04-10 17:07           04-10 17:07           04-10 19:05           04-10 20:01           04-12 20:39
+KXANTHROPICRISK-26APR01                             2/26/262251                    02-20 14:03           02-24 16:06           02-25 17:38           02-25 17:38           02-25 17:38           02-26 14:49           02-26 14:49           02-27 17:15
+KXDROPOUTPRIMARY-26-KPAX                            4/10/26546                               —                     —                     —                     —                     —                     —                     —                     —
+N/A                                                 11/19/23531           (not available)
+KXNOEMOUT-26APR01                                   3/5/26220                      03-12 10:22           03-12 10:22           03-12 10:22           03-12 10:22           03-12 10:22           03-12 10:22           03-16 19:13           03-16 19:13
+N/A                                                 7/9/251056            (not available)
+N/A                                                 12/9/231641           (not available)
+N/A                                                 1/2/241321            (not available)
+N/A                                                 1/29/24195            (not available)
+KXTRYFIREPOWELL-26MAY12-JUN01                       4/15/26832                     04-15 13:36                     —                     —                     —                     —                     —                     —                     —
+KXMETAHEADCOUNT-26JUL-81000                         3/14/26932                               —                     —                     —                     —                     —                     —                     —                     —

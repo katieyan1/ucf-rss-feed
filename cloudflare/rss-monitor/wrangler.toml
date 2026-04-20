@@ -1,0 +1,37 @@
+name = "rss-monitor"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Cron: fire every minute
+[triggers]
+crons = ["* * * * *"]
+
+# D1 database — stores detected articles and feed events.
+# After `wrangler d1 create rss-monitor`, paste the returned database_id below.
+# Apply migrations: `wrangler d1 migrations apply rss-monitor`
+[[d1_databases]]
+binding = "rss_monitor"
+database_name = "rss-monitor"
+database_id = "2b20ee37-8e3b-4744-a073-7012470fcc61"
+migrations_dir = "migrations"
+
+# Workflow binding
+[[workflows]]
+name = "rss-monitor-workflow"
+binding = "RSS_WORKFLOW"
+class_name = "RSSMonitorWorkflow"
+
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1

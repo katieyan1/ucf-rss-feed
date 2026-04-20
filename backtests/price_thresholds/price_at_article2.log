@@ -1,0 +1,145 @@
+Processing 19 markets
+
+====================================================================================================
+
+cnn-pambundifired → KXBONDIOUT-26APR03
+  Headline:  Trump has discussed ousting Attorney General Pam Bondi, sources say
+  Timestamp: 4/1/261919
+  Parsed:    2026-04-01 19:19 EDT
+  Fetching trades for KXBONDIOUT-26APR03...
+  Total trades: 5316
+  Article published BEFORE market opened.
+  First trade: 2026-04-02 13:09:31 EDT → 99¢  [before_open]
+
+nyt-pambundifired → N/A
+  Headline:  Trump Has Discussed Firing Attorney General Pam Bondi
+  Timestamp: 4/1/261824
+  SKIPPED — ticker not available in current Kalshi API
+
+wsj-anthropicsecurityrisk → KXANTHROPICRISK-26APR01
+  Headline:  Anthropic Refuses Pentagon’s Proposal to Loosen AI Guardrails
+  Timestamp: 2/26/262251
+  Parsed:    2026-02-26 22:51 EST
+  Fetching trades for KXANTHROPICRISK-26APR01...
+  Total trades: 1369
+  Price at article time: 27¢  (last trade: 2026-02-26 22:49:41 EST)
+
+sfchron-swalwelldropout → KXDROPOUTPRIMARY-26-KPAX
+  Headline:  Ex-staffer says Eric Swalwell, candidate for California governor, sexually assau
+  Timestamp: 4/10/26546
+  Parsed:    2026-04-10 05:46 EDT
+  Fetching trades for KXDROPOUTPRIMARY-26-KPAX...
+  Total trades: 0
+  No trades found.
+
+guardian-samaltmanreturns → N/A
+  Headline:  Ousted OpenAI CEO Sam Altman ‘in talks to return at firm’s HQ’
+  Timestamp: 11/19/23531
+  SKIPPED — ticker not available in current Kalshi API
+
+npr-kristinoemfired → KXNOEMOUT-26APR01
+  Headline:  Trump fires Kristi Noem as DHS chief, names Sen. Markwayne Mullin to replace her
+  Timestamp: 3/5/26220
+  Parsed:    2026-03-05 02:20 EST
+  Fetching trades for KXNOEMOUT-26APR01...
+  Total trades: 412
+  Article published BEFORE market opened.
+  First trade: 2026-03-12 10:22:09 EDT → 86¢  [before_open]
+
+guardian-lindayaccarinostepsdown → N/A
+  Headline:  Linda Yaccarino stepping down as CEO of Elon Musk’s X
+  Timestamp: 7/9/251056
+  SKIPPED — ticker not available in current Kalshi API
+
+nytimes-upennpresidentresigns → N/A
+  Headline:  Penn’s Leadership Resigns Amid Controversies Over Antisemitism
+  Timestamp: 12/9/231641
+  SKIPPED — ticker not available in current Kalshi API
+
+nytimes-harvardpresidentresigns → N/A
+  Headline:  Harvard President Resigns After Mounting Plagiarism Accusations
+  Timestamp: 1/2/241321
+  SKIPPED — ticker not available in current Kalshi API
+
+guardian-firstnueralink → N/A
+  Headline:  Elon Musk says Neuralink has implanted its first brain chip in human
+  Timestamp: 1/29/24195
+  SKIPPED — ticker not available in current Kalshi API
+
+nytimes-powellfire → KXTRYFIREPOWELL-26MAY12-JUN01
+  Headline:  Harvard President Resigns After Mounting Plagiarism Accusations
+  Timestamp: 4/15/26832
+  Parsed:    2026-04-15 08:32 EDT
+  Fetching trades for KXTRYFIREPOWELL-26MAY12-JUN01...
+  Total trades: 165
+  Article published BEFORE market opened.
+  First trade: 2026-04-15 13:36:54 EDT → 30¢  [before_open]
+
+nytimes-metalayoffs → KXMETAHEADCOUNT-26JUL-81000
+  Headline:  Meta to Lay Off Another 10,000 Workers
+  Timestamp: 3/14/26932
+  Parsed:    2026-03-14 09:32 EDT
+  Fetching trades for KXMETAHEADCOUNT-26JUL-81000...
+  Total trades: 18
+  Price at article time: 4¢  (last trade: 2026-02-21 14:03:31 EST)
+
+cnn-eric-swalwell-sexual-misconduct-allegations-invs → N/A
+  Headline:  Exclusive: Four women describe sexual misconduct by Rep. Eric Swalwell
+  Timestamp: Apr 10, 2026, 9:25 PM ET
+  SKIPPED — ticker not available in current Kalshi API
+
+npr-iranalikilled → N/A
+  Headline:  Iran's Ayatollah Ali Khamenei is killed in Israeli strike, ending 36-year iron r
+  Timestamp: 2/28/2658
+  SKIPPED — ticker not available in current Kalshi API
+
+gam-trudeauresigns → N/A
+  Headline:  Trudeau expected to announce exit as party leader before national caucus meeting
+  Timestamp: 1/6/25839
+  SKIPPED — ticker not available in current Kalshi API
+
+guardian-mandelsonscandal → N/A
+  Headline:  Revealed: Mandelson failed vetting but Foreign Office overruled decision
+  Timestamp: 4/16/261316
+  SKIPPED — ticker not available in current Kalshi API
+
+wsj-maduro captured → N/A
+  Headline:  U.S. Captures Venezuelan President Nicolas Maduro
+  Timestamp: 1/3/26431
+  SKIPPED — ticker not available in current Kalshi API
+
+cnbc-kevinwarshfedchair → N/A
+  Headline:  Trump to announce Fed chair nominee Friday; Kevin Warsh may be his pick, accordi
+  Timestamp: 1/29/26756
+  SKIPPED — ticker not available in current Kalshi API
+
+_swalwell_cnn → KXDROPOUTPRIMARY-26-ESWA
+  Headline:  Iran vows it won’t surrender as war with the U.S. and Israel enters second week
+  Timestamp: 
+  SKIPPED — could not parse timestamp
+
+
+========================================================================================================================
+SUMMARY — YES price at article publication time
+========================================================================================================================
+Article ID                               Timestamp (ET)             Ticker                                Price  Note
+------------------------------------------------------------------------------------------------------------------------
+cnn-pambundifired                        4/1/261919                 KXBONDIOUT-26APR03                      99¢  before_open
+nyt-pambundifired                        4/1/261824                 N/A                                       —  unavailable
+wsj-anthropicsecurityrisk                2/26/262251                KXANTHROPICRISK-26APR01                 27¢  
+sfchron-swalwelldropout                  4/10/26546                 KXDROPOUTPRIMARY-26-KPAX                  —  no_trades
+guardian-samaltmanreturns                11/19/23531                N/A                                       —  unavailable
+npr-kristinoemfired                      3/5/26220                  KXNOEMOUT-26APR01                       86¢  before_open
+guardian-lindayaccarinostepsdown         7/9/251056                 N/A                                       —  unavailable
+nytimes-upennpresidentresigns            12/9/231641                N/A                                       —  unavailable
+nytimes-harvardpresidentresigns          1/2/241321                 N/A                                       —  unavailable
+guardian-firstnueralink                  1/29/24195                 N/A                                       —  unavailable
+nytimes-powellfire                       4/15/26832                 KXTRYFIREPOWELL-26MAY12-JUN01           30¢  before_open
+nytimes-metalayoffs                      3/14/26932                 KXMETAHEADCOUNT-26JUL-81000              4¢  
+cnn-eric-swalwell-sexual-misconduct-allegations-invs Apr 10, 2026, 9:25 PM ET   N/A                                       —  unavailable
+npr-iranalikilled                        2/28/2658                  N/A                                       —  unavailable
+gam-trudeauresigns                       1/6/25839                  N/A                                       —  unavailable
+guardian-mandelsonscandal                4/16/261316                N/A                                       —  unavailable
+wsj-maduro captured                      1/3/26431                  N/A                                       —  unavailable
+cnbc-kevinwarshfedchair                  1/29/26756                 N/A                                       —  unavailable
+_swalwell_cnn                                                       KXDROPOUTPRIMARY-26-ESWA                  —  bad_timestamp
