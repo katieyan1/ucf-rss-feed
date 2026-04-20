@@ -255,6 +255,7 @@ class TradeDecider:
             "ticker": market_id,
             "client_order_id": f"rss-{market_token}-{int(time.time() * 1000)}",
             "type": "limit",
+            "time_in_force": "immediate_or_cancel",
             "action": "buy",
             "side": side,
             "count": count,
