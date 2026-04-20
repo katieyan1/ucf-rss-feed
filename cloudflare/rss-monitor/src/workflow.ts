@@ -38,8 +38,14 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
               },
               signal: AbortSignal.timeout(15_000),
             });
-            results[section] = resp.ok ? await resp.text() : null;
-          } catch {
+            if (!resp.ok) {
+              console.error(`[fetch-feeds] ${source.name}/${section}: HTTP ${resp.status} from ${url}`);
+              results[section] = null;
+            } else {
+              results[section] = await resp.text();
+            }
+          } catch (err) {
+            console.error(`[fetch-feeds] ${source.name}/${section}: fetch threw — ${err}`);
             results[section] = null;
           }
         })
@@ -48,10 +54,6 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
     });
 
     // Step 2: Read D1 state and compute diffs. No writes — pure reads + logic.
-    //
-    // Returns one SectionDiff per successfully fetched section, including
-    // isFirstRun sections (newItems will be empty, but currentGuids still needs
-    // to be written to feed_snapshots in step 3).
     const diffs = await step.do("diff-feeds", async () => {
       const results: SectionDiff[] = [];
       const ph = (n: number) => Array(n).fill("?").join(", ");
@@ -59,23 +61,39 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
       for (const [section, xml] of Object.entries(rawFeeds)) {
         if (xml === null) continue;
 
-        const items = parseFeed(xml);
-        if (items.length === 0) continue;
+        let items: FeedItem[];
+        try {
+          items = parseFeed(xml);
+        } catch (err) {
+          console.error(`[diff-feeds] ${source.name}/${section}: parseFeed threw — ${err}`);
+          continue;
+        }
+
+        if (items.length === 0) {
+          console.warn(`[diff-feeds] ${source.name}/${section}: parsed 0 items`);
+          continue;
+        }
 
         const currentGuids = items.map((i) => i.guid);
         const currentGuidSet = new Set(currentGuids);
 
-        // Read snapshot + seen articles in parallel — no writes here.
-        const [snapshotResult, seenResult] = await Promise.all([
-          this.env.rss_monitor
-            .prepare("SELECT guid FROM feed_snapshots WHERE source = ? AND section = ?")
-            .bind(source.name, section)
-            .all<{ guid: string }>(),
-          this.env.rss_monitor
-            .prepare(`SELECT guid FROM articles WHERE guid IN (${ph(currentGuids.length)})`)
-            .bind(...currentGuids)
-            .all<{ guid: string }>(),
-        ]);
+        let snapshotResult: D1Result<{ guid: string }>;
+        let seenResult: D1Result<{ guid: string }>;
+        try {
+          [snapshotResult, seenResult] = await Promise.all([
+            this.env.rss_monitor
+              .prepare("SELECT guid FROM feed_snapshots WHERE source = ? AND section = ?")
+              .bind(source.name, section)
+              .all<{ guid: string }>() as Promise<D1Result<{ guid: string }>>,
+            this.env.rss_monitor
+              .prepare(`SELECT guid FROM articles WHERE guid IN (${ph(currentGuids.length)})`)
+              .bind(...currentGuids)
+              .all<{ guid: string }>() as Promise<D1Result<{ guid: string }>>,
+          ]);
+        } catch (err) {
+          console.error(`[diff-feeds] ${source.name}/${section}: D1 read failed — ${err}`);
+          continue;
+        }
 
         const isFirstRun = snapshotResult.results.length === 0;
         const prevGuids = snapshotResult.results.map((r) => r.guid);
@@ -99,12 +117,20 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
         if (!isFirstRun) {
           const droppedGuids = prevGuids.filter((g) => !currentGuidSet.has(g));
           if (droppedGuids.length > 0) {
-            const { results: dropped } = await this.env.rss_monitor
-              .prepare(`SELECT title FROM articles WHERE guid IN (${ph(droppedGuids.length)})`)
-              .bind(...droppedGuids)
-              .all<{ title: string }>();
-            droppedTitles = dropped.map((r) => r.title);
+            try {
+              const { results: dropped } = await this.env.rss_monitor
+                .prepare(`SELECT title FROM articles WHERE guid IN (${ph(droppedGuids.length)})`)
+                .bind(...droppedGuids)
+                .all<{ title: string }>();
+              droppedTitles = dropped.map((r) => r.title);
+            } catch (err) {
+              console.error(`[diff-feeds] ${source.name}/${section}: dropped-titles query failed — ${err}`);
+            }
           }
+        }
+
+        if (!isFirstRun && newItems.length > 0) {
+          console.log(`[diff-feeds] ${source.name}/${section}: ${newItems.length} new, ${droppedTitles.length} dropped`);
         }
 
         results.push({ section, currentGuids, newItems, droppedTitles, latencyMs, isFirstRun });
@@ -113,12 +139,12 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
       return results;
     });
 
-    if (diffs.length === 0) return;
+    if (diffs.length === 0) {
+      console.warn(`[workflow] ${source.name}: all sections failed or returned 0 items — nothing to write`);
+      return;
+    }
 
     // Step 3: Write everything to D1 in one step.
-    // - Update feed_snapshots for every section (including first-run seeding).
-    // - INSERT new articles.
-    // - INSERT a feed_event row if anything changed.
     await step.do(
       "write-to-db",
       { retries: { limit: 3, delay: 5000, backoff: "exponential" } },
@@ -183,7 +209,13 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
           );
         }
 
-        await this.env.rss_monitor.batch(statements);
+        try {
+          await this.env.rss_monitor.batch(statements);
+          console.log(`[write-to-db] ${source.name}: batch of ${statements.length} statements succeeded (${totalNew} new articles, ${totalDrop} dropped)`);
+        } catch (err) {
+          console.error(`[write-to-db] ${source.name}: batch failed — ${err}`);
+          throw err; // re-throw so the step retries
+        }
       }
     );
   }
