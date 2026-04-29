@@ -166,7 +166,7 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
           for (const guid of diff.currentGuids) {
             statements.push(
               this.env.rss_monitor
-                .prepare("INSERT INTO feed_snapshots (source, section, guid) VALUES (?, ?, ?)")
+                .prepare("INSERT OR IGNORE INTO feed_snapshots (source, section, guid) VALUES (?, ?, ?)")
                 .bind(source.name, diff.section, guid)
             );
           }
