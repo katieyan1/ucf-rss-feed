@@ -204,7 +204,7 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
             : null;
           statements.push(
             this.env.rss_monitor
-              .prepare("INSERT INTO feed_events (source, detected_at, new_count, drop_count, avg_latency_ms) VALUES (?, ?, ?, ?, ?)")
+              .prepare("INSERT OR IGNORE INTO feed_events (source, detected_at, new_count, drop_count, avg_latency_ms) VALUES (?, ?, ?, ?, ?)")
               .bind(source.name, detectedAt, totalNew, totalDrop, avgLatencyMs)
           );
         }
