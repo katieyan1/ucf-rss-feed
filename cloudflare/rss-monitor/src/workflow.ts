@@ -24,11 +24,11 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
   async run(event: WorkflowEvent<RSSPollParams>, step: WorkflowStep) {
     const { source } = event.payload;
 
-    // Step 1: Fetch all feeds for this source in parallel.
-    const rawFeeds = await step.do("fetch-feeds", async () => {
-      const results: Record<string, string | null> = {};
-      await Promise.all(
-        Object.entries(source.feeds).map(async ([section, url]) => {
+    // Step 1: Fetch each feed in its own step so one dead feed can't poison the cycle.
+    const rawFeeds: Record<string, string | null> = {};
+    await Promise.all(
+      Object.entries(source.feeds).map(async ([section, url]) => {
+        rawFeeds[section] = await step.do(`fetch-${section}`, async () => {
           try {
             const resp = await fetch(url, {
               headers: {
@@ -39,19 +39,17 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
               signal: AbortSignal.timeout(15_000),
             });
             if (!resp.ok) {
-              console.error(`[fetch-feeds] ${source.name}/${section}: HTTP ${resp.status} from ${url}`);
-              results[section] = null;
-            } else {
-              results[section] = await resp.text();
+              console.error(`[fetch-${section}] ${source.name}: HTTP ${resp.status} from ${url}`);
+              return null;
             }
+            return await resp.text();
           } catch (err) {
-            console.error(`[fetch-feeds] ${source.name}/${section}: fetch threw — ${err}`);
-            results[section] = null;
+            console.error(`[fetch-${section}] ${source.name}: fetch threw — ${err}`);
+            return null;
           }
-        })
-      );
-      return results;
-    });
+        });
+      })
+    );
 
     // Step 2: Read D1 state and compute diffs. No writes — pure reads + logic.
     const diffs = await step.do("diff-feeds", async () => {
@@ -163,7 +161,7 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
               .prepare("DELETE FROM feed_snapshots WHERE source = ? AND section = ?")
               .bind(source.name, diff.section)
           );
-          for (const guid of diff.currentGuids) {
+          for (const guid of new Set(diff.currentGuids)) {
             statements.push(
               this.env.rss_monitor
                 .prepare("INSERT OR IGNORE INTO feed_snapshots (source, section, guid) VALUES (?, ?, ?)")
