@@ -1,10 +1,13 @@
 import { WorkflowEntrypoint, WorkflowEvent, WorkflowStep } from "cloudflare:workers";
 import { SourceConfig } from "./sources";
 import { parseFeed, computeLatencyMs, FeedItem } from "./rss";
+import { extractKeywords, prepareMarkets, matchMarkets, PreparedMarket } from "./keywords";
+import { decideImpact, IMPACT_MODEL } from "./impact";
 
 export interface Env {
   RSS_WORKFLOW: Workflow;
   rss_monitor: D1Database;
+  AI: { run(model: string, input: unknown): Promise<unknown> };
 }
 
 export interface RSSPollParams {
@@ -142,6 +145,99 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
       return;
     }
 
+    // Step 2.5: Extract keywords from each new article and find Kalshi markets that share them.
+    // Carries the article's title/description and the market's title/description forward so the
+    // impact step doesn't need to re-query D1.
+    interface MatchRecord {
+      articleGuid: string;
+      articleTitle: string;
+      articleDescription: string;
+      marketId: string;
+      marketTitle: string;
+      marketDescription: string | null;
+      matchedKeywords: string[];
+    }
+
+    const matches = await step.do("match-markets", async (): Promise<MatchRecord[]> => {
+      const totalNew = diffs.reduce((acc, d) => acc + d.newItems.length, 0);
+      if (totalNew === 0) return [];
+
+      const { results } = await this.env.rss_monitor
+        .prepare("SELECT market_id, title, description, keywords FROM kalshi_markets")
+        .all<{ market_id: string; title: string; description: string | null; keywords: string }>();
+
+      const markets: PreparedMarket[] = prepareMarkets(results);
+      if (markets.length === 0) return [];
+
+      const marketById = new Map(markets.map((m) => [m.marketId, m]));
+
+      const out: MatchRecord[] = [];
+      for (const diff of diffs) {
+        for (const item of diff.newItems) {
+          const articleKeywords = extractKeywords(`${item.title} ${item.description ?? ""}`);
+          if (articleKeywords.size === 0) continue;
+          for (const m of matchMarkets(articleKeywords, markets)) {
+            const market = marketById.get(m.marketId);
+            if (!market) continue;
+            out.push({
+              articleGuid: item.guid,
+              articleTitle: item.title,
+              articleDescription: item.description ?? "",
+              marketId: m.marketId,
+              marketTitle: market.title,
+              marketDescription: market.description,
+              matchedKeywords: m.matchedKeywords,
+            });
+          }
+        }
+      }
+
+      if (out.length > 0) {
+        console.log(`[match-markets] ${source.name}: ${out.length} article-market matches across ${totalNew} new articles`);
+      }
+      return out;
+    });
+
+    // Step 2.6: For each match, ask Workers AI whether the article actually impacts the market.
+    // Each call is its own step.do so a hung/failed AI call doesn't redo the rest, and so
+    // verdicts are checkpointed individually on workflow retries. A null verdict (parse/IO
+    // failure) still records the keyword overlap with NULL impact/confidence.
+    interface JudgedMatch extends MatchRecord {
+      impact: 0 | 1 | null;
+      confidence: number | null;
+      reason: string | null;
+      llmModel: string | null;
+    }
+
+    const judged: JudgedMatch[] = [];
+    for (let i = 0; i < matches.length; i++) {
+      const m = matches[i];
+      const verdict = await step.do(`impact-${i}`, async () => {
+        return await decideImpact(this.env.AI, {
+          articleTitle: m.articleTitle,
+          articleDescription: m.articleDescription,
+          marketTitle: m.marketTitle,
+          marketDescription: m.marketDescription,
+          matchedKeywords: m.matchedKeywords,
+        });
+      });
+
+      judged.push({
+        ...m,
+        impact: verdict?.impact ?? null,
+        confidence: verdict?.confidence ?? null,
+        reason: verdict?.reason ?? null,
+        llmModel: verdict ? IMPACT_MODEL : null,
+      });
+    }
+
+    if (judged.length > 0) {
+      const yes = judged.filter((j) => j.impact === 1).length;
+      const no = judged.filter((j) => j.impact === 0).length;
+      const failed = judged.filter((j) => j.impact === null).length;
+      console.log(`[decide-impact] ${source.name}: ${yes} impact / ${no} no-impact / ${failed} unjudged`);
+    }
+
     // Step 3: Write everything to D1 in one step.
     await step.do(
       "write-to-db",
@@ -192,6 +288,29 @@ export class RSSMonitorWorkflow extends WorkflowEntrypoint<Env, RSSPollParams> {
           totalNew += diff.newItems.length;
           totalDrop += diff.droppedTitles.length;
           allLatencyMs.push(...diff.latencyMs);
+        }
+
+        // Article ↔ market keyword matches with the LLM impact verdict for this poll's new articles.
+        for (const match of judged) {
+          statements.push(
+            this.env.rss_monitor
+              .prepare(`
+                INSERT OR IGNORE INTO article_market_matches
+                  (article_guid, market_id, overlap_count, matched_keywords, detected_at, impact, confidence, reason, llm_model)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+              `)
+              .bind(
+                match.articleGuid,
+                match.marketId,
+                match.matchedKeywords.length,
+                JSON.stringify(match.matchedKeywords),
+                detectedAt,
+                match.impact,
+                match.confidence,
+                match.reason,
+                match.llmModel,
+              )
+          );
         }
 
         // Record a feed_event if any real changes were found (excluding first runs).

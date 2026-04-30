@@ -21,6 +21,10 @@ name = "rss-monitor-workflow"
 binding = "RSS_WORKFLOW"
 class_name = "RSSMonitorWorkflow"
 
+# Workers AI binding — used to judge whether a matched article impacts a Kalshi market.
+[ai]
+binding = "AI"
+
 [observability]
 enabled = false
 head_sampling_rate = 1
